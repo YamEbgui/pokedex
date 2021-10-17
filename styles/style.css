@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "pokedex_font";
+    src: url(/font/PokGB.ttf) format(ttf);
+}
+
+.btn-primary{
+    background-color: red;
+    border-color: black;
+}
+
+#pockemonImage{
+    height:30vh;
+}
+
+#data{
+    font-family: "pokedex_font" ;
+}
