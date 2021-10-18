@@ -1,11 +1,26 @@
-@font-face {
-    font-family: "pokedex_font";
-    src: url(/font/PokGB.ttf) format(ttf);
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+body{
+    font-family: 'Press Start 2P', cursive;
 }
-
-.btn-primary{
+div{
+    margin:3vh;
+}
+.btn{
     background-color: red;
     border-color: black;
+    width:100%;
+    margin-top: 1vh;
+    
+    
+}
+#div-form{
+    display: flex;
+    flex-direction:column;
+}
+
+#body-div{
+    display: flex;
+    flex-direction:column
 }
 
 #pockemonImage{
@@ -13,5 +28,7 @@
 }
 
 #data{
-    font-family: "pokedex_font" ;
+    display: flex;
+    flex-direction: row-reverse;
 }
+

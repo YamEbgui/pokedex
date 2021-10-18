@@ -9,26 +9,32 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <div>
+    <div id="body-div">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
             <span class="fs-4">POKADEX</span>
         </header>
-        <div  class="mx-3 d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-            <input type="search" class="form-control form-control-dark" placeholder="ENTER POKEMON NAME/ID" aria-label="Search">
-            <button type="button" class="btn btn-danger">Primary</button>
-          </form>
+        <div   id="div-form" class="mx-3 d-flex flex-col align-items-center">
+            <form class="col-12 col-lg-auto ">
+                <input type="search" class="form-control form-control-dark" placeholder="ENTER POKEMON NAME/ID" aria-label="Search">
+                <button type="button" class="btn btn-danger">Search</button>
+            </form>
         <div>
-        <div id="data" class="media position-relative">
-            <p id="pockemonName"class=""></p>
-            <p id="pockemonId" class=""></p>
-            <p id="pockemonHeight"class=""></p>
-            <p id="pockemonWeight"class=""></p>
-            <ul id="pockemonTypes" class="list-group">
-            </ul>
-            <ul id="pockemonFamily" class="list-group">
-            </ul>
-            <img id="pockemonImage" src="images/pokemonDataPlaceholder.jpg" class="img-thumbnail img-fluid m-auto" alt="Pockemon Picture">
+        <div id="data" class="">
+            <div>
+                <p id="pockFamilyTitle" hidden>POKEMONS FROM THIS TYPE:</p>
+                <ul id="pockemonFamily" class="list-group">  
+                </ul>
+            </div>
+            <div>
+                <p id="pockemonName"class=""></p>
+                <p id="pockemonId" class=""></p>
+                <p id="pockemonHeight"class=""></p>
+                <p id="pockemonWeight"class=""></p>
+                <p id="pockTypesTitle" hidden></p>
+                <ul id="pockemonTypes" class="list-group">
+                </ul>
+            </div>
+            <img id="pockemonImage" src="images/pokemonDataPlaceholder.jpg" class="img-thumbnail img-fluid" alt="Pockemon Picture">
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
