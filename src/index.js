@@ -6,10 +6,14 @@ const pockemonWeight = document.getElementById("pockemonWeight");
 const pockemonImage = document.getElementById("pockemonImage");
 const pockemonTypes = document.getElementById("pockemonTypes");
 const pockemonFamily = document.getElementById("pockemonFamily");
+const userDom = document.getElementById("userContent") 
+
 
 //variable section
+let userName = "";
 let frontImageURL = "";
 let backImageURL = "";
+const baseLocalServer = "http://localhost:8080/"
 const baseURL = 'https://pokeapi.co/api/v2/'
 
 //create element in the Dom with the arguments that it get
@@ -36,7 +40,7 @@ const showFamily = (data) =>{
 //create li (with eventlistener of click) for each pokemon type from the data. 
 const showTypes = (data) =>{
     document.getElementById("pockTypesTitle").removeAttribute("hidden");
-    for (let i = 0 ; i < data.length ; i++){  
+    for (let i = 0 ; i < data.length ; i++){ 
         let typeElement = createElement("li" , data[i].type.name.toUpperCase() , ["list-group-item"]);
         typeElement.addEventListener("click" , getFamilyFromApi)
         pockemonTypes.append(typeElement);
@@ -45,8 +49,8 @@ const showTypes = (data) =>{
 
 // change the image to the image from the data(hover with mouse put other image from the data)
 const showImage = (data) =>{
-    frontImageURL= data['sprites']['front_default'];
-    backImageURL= data['sprites']['back_default'];
+    frontImageURL= data.front_pic;
+    backImageURL= data.back_pic;
     pockemonImage.src = `${frontImageURL}`;
     pockemonImage.addEventListener("mouseover", handlerForHover);
 }
@@ -54,7 +58,6 @@ const showImage = (data) =>{
 //change DOM objecct to show the data (pockemon data)
 const showData = (data) =>{
     pockemonName.textContent ="NAME: "+ data.name.toUpperCase();
-    pockemonId.textContent = "ID: "+  data.id;
     pockemonHeight.textContent ="HEIGHT: " + data.height;
     pockemonWeight.textContent ="WEIGHT " +  data.weight;
     showImage(data)
@@ -85,8 +88,13 @@ const deleteInput = (inputElement) =>{
 //send get reequest and return data from the API based on the url the user insert
 const getForApi = async (input) =>{
     try{
-        let response = await axios.get(`${baseURL}pokemon/${input}`);
-        return response.data;
+        try{
+            let response = await axios.get(`${baseLocalServer}pokemon/get/${input}`);
+            return response.data;
+        }catch{
+            let response = await axios.get(`${baseLocalServer}pokemon/query?name=${input}`);
+            return response.data;
+        }
     }
     catch(error) {
         deleteInput(document.querySelector('input'));
@@ -128,20 +136,35 @@ const handlerForFamilyClick = async (event) =>{
 const getFamilyFromApi = async (event) =>{
     let pockemonType = event.target.textContent.toLowerCase();
     console.log(`${baseURL}type/${pockemonType}/`)
-    let response = await fetch (`${baseURL}type/${pockemonType}/`, {
-        method: 'get',
-        mode: 'cors',
-        headers:{
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    })
+    let response = await axios.get(`${baseURL}type/${pockemonType}/`);
+    console.log(await response)
     if (response.status < 400){
-        let result = await response.json();
-        showFamily(result.pokemon)
+        let result = await response;
+        showFamily(result.data.pokemon)
     }else{
         error(`Something went wrong :${response.status} `)
     }
 }
 
-document.querySelector('button').addEventListener("click",handlerForSerch)
+const refreshUserContent = () =>{
+    while (userDom.firstElementChild){
+        console.log(typeof userDom.children[0])
+        userDom.removeChild(userDom.children[0]);
+    }
+    const userElement = createElement("h5",`USERNAME : ${userName}`) 
+    userDom.append(userElement);
+}
+
+const handleUserLogIn = (event) =>{
+    const input =document.getElementById('userInput').value;
+    if(input !== ""){
+        userName = input;
+        console.log(userName);
+        refreshUserContent();
+        document.querySelector('button').addEventListener("click",handlerForSerch)
+    }
+
+}
+
+
+document.getElementById('login').addEventListener("click",handleUserLogIn);
