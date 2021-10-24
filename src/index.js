@@ -7,7 +7,8 @@ const pockemonWeight = document.getElementById("pockemonWeight");
 const pockemonImage = document.getElementById("pockemonImage");
 const pockemonTypes = document.getElementById("pockemonTypes");
 const pockemonFamily = document.getElementById("pockemonFamily");
-const userDom = document.getElementById("userContent") 
+const userDom = document.getElementById("userContent");
+const userStorageDom=document.getElementById("storageButton");
 
 
 //variable section
@@ -30,7 +31,7 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
 
 // create li (with eventlistener of click) for each pokemon name from the data. 
 const showFamily = (data) =>{
-    document.getElementById("pockFamilyTitle").removeAttribute("hidden");
+    document.getElementById("pockFamilyTitle").hidden= false;
     for (let i = 0 ; i < data.length ; i++){  
         let pockemonElement = createElement("li" , data[i].pokemon.name.toUpperCase() , ["list-group-item"]);
         pockemonElement.addEventListener("click" , handlerForFamilyClick)
@@ -40,7 +41,7 @@ const showFamily = (data) =>{
 
 //create li (with eventlistener of click) for each pokemon type from the data. 
 const showTypes = (data) =>{
-    document.getElementById("pockTypesTitle").removeAttribute("hidden");
+    document.getElementById("pockTypesTitle").hidden=false;
     for (let i = 0 ; i < data.length ; i++){ 
         let typeElement = createElement("li" , data[i].type.name.toUpperCase() , ["list-group-item"]);
         typeElement.addEventListener("click" , getFamilyFromApi)
@@ -76,6 +77,7 @@ const cleanTypesData = () =>{
 
 //remove li elements from the family list in the DOM
 const cleanFamilyData = () =>{
+    document.getElementById("pockFamilyTitle").hidden= true;
     const ulLength = pockemonFamily.childNodes.length;
     for (let i = 0 ; i < ulLength ; i++){
         pockemonFamily.removeChild(pockemonFamily.childNodes[0]);
@@ -149,6 +151,7 @@ const handlerForFamilyClick = async (event) =>{
 // handler for click on pockemon type 
 // send get request to API and update DOM. 
 const getFamilyFromApi = async (event) =>{
+    document.getElementById("pockFamilyTitle").hidden= false;
     let pockemonType = event.target.textContent.toLowerCase();
     console.log(`${baseURL}type/${pockemonType}/`)
     let response = await axios.get(`${baseURL}type/${pockemonType}/`);
@@ -242,8 +245,58 @@ const handleRelease = async (event) =>{
         document.querySelector('input').placeholder="THIS POKEMON NEVER CAUGHT";
     }
 }
+const getUserData = async ()=>{
+    try{
+        let response = await axios.get(`${baseLocalServer}pokemon/`, {
+            headers: {
+              'username': `${userName}`
+            }});
+        return response.data;
+    }
+    catch(error) {
+        throw error;
+    }
+    
+}
+
+const showPokemonList = (List) =>{
+    const listElement = document.getElementById("pokemonList");
+    for (let i = 0 ; i < List.length; i++){
+        let listItem = createElement("li",List[i].name,["dropdown-item"]);
+        listItem.addEventListener("click", ()=>{
+            console.log(1)
+            showData(List[i]);
+            handleStorage(event);
+        });
+        listElement.appendChild(listItem);
+    }
+}
+
+const deleteListElement = () =>{
+    listElement = document.getElementById("pokemonList");
+    while(listElement.children[0]){
+        let listItem = listElement.children[0];
+        listElement.removeChild(listItem);
+    }
+}
+
+const handleStorage = async (event) =>{
+    if(userStorageDom.getAttribute("class").indexOf("show") > 0){
+        deleteListElement();
+        userStorageDom.setAttribute("class", userStorageDom.getAttribute("class").replace("show", ""));
+        userStorageDom.setAttribute("aria-expanded" , false);
+        let pokemonList=document.getElementById("pokemonList");
+        pokemonList.setAttribute("class" , pokemonList.getAttribute("class").replace("show", "")) 
+    }else{
+        const pokemonStorageList = await getUserData();
+        showPokemonList(pokemonStorageList);
+        userStorageDom.setAttribute("class", userStorageDom.getAttribute("class") + " show");
+        userStorageDom.setAttribute("aria-expanded" , true);
+        let pokemonList=document.getElementById("pokemonList");
+        pokemonList.setAttribute("class" , pokemonList.getAttribute("class") +" show") 
+    }
+}
 
 
-
-
+document.getElementById("storageButton").addEventListener("click",handleStorage);
 document.getElementById('login').addEventListener("click",handleUserLogIn);

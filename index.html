@@ -16,11 +16,14 @@
             <input type="text" id="userInput" class="fadeIn second" name="login" placeholder="INSERT USERNAME ">
             <input id ="login" type="submit" class="fadeIn fourth" value="Log In">
           </form>
-          <button type="button" class="btn btn-secondary cart" hidden= "true">
+          <button id="storageButton" type="button" class="btn btn-secondary cart dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" hidden= "true">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
 <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"></path>
 </svg>
           </button>
+          <ul id="pokemonList" class="dropdown-menu mt-3" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
+          </ul>
+          
         </div>
       </div>
     <div id="body-div">
@@ -49,7 +52,7 @@
         </div>
         <div id="data" class="">
             <div>
-                <p id="pockFamilyTitle" hidden>POKEMONS FROM THIS TYPE:</p>
+                <p id="pockFamilyTitle" hidden="true">POKEMONS FROM THIS TYPE:</p>
                 <ul id="pockemonFamily" class="list-group">  
                 </ul>
             </div>
@@ -58,7 +61,7 @@
                 <p id="pockemonId" class=""></p>
                 <p id="pockemonHeight"class=""></p>
                 <p id="pockemonWeight"class=""></p>
-                <p id="pockTypesTitle" hidden></p>
+                <p id="pockTypesTitle" hidden="true"></p>
                 <ul id="pockemonTypes" class="list-group">
                 </ul>
             </div>
