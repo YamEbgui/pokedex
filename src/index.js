@@ -164,6 +164,7 @@ const getFamilyFromApi = async (event) =>{
     }
 }
 
+// remove the input for insert username and display the form section on the page and the username in top of the page
 const refreshUserContent = () =>{
     console.log(typeof userDom.children[0])
     userDom.removeChild(userDom.children[0]);
@@ -173,17 +174,21 @@ const refreshUserContent = () =>{
     userDom.children[0].hidden=false;
 }
 
+// if user insert username, the function make the form section visable and add event listeners on the page.
 const handleUserLogIn = (event) =>{
     const input =document.getElementById('userInput').value;
     if(input !== ""){
         userName = input;
         console.log(userName);
         refreshUserContent();
+        document.getElementById("storageButton").addEventListener("click",handleStorage);
         document.getElementById("searchButton").addEventListener("click",handlerForSerch);
         document.getElementById("catchButton").addEventListener("click",handleCatch);
         document.getElementById("releaseButton").addEventListener("click",handleRelease);
     }
 }
+
+// send put request to the local server to make the user catch pokemon
 const catchOnServer = async (input) =>{
     try{
         let response = await axios.put(`${baseLocalServer}pokemon/catch/${input}`,{}, {
@@ -200,6 +205,8 @@ const catchOnServer = async (input) =>{
     }
     
 }
+
+//send delete request to the local server to release pokemon from the user
 const releaseOnServer = async (input) =>{
     try{
         let response = await axios.delete(`${baseLocalServer}pokemon/release/${input}`, {
@@ -216,6 +223,7 @@ const releaseOnServer = async (input) =>{
     
 }
 
+// send request to the server to add pokemon to user directory and refresh the page to show the data of this pokemon
 const handleCatch = async (event) =>{
     try{
         let input = document.querySelector('input').value;
@@ -231,6 +239,7 @@ const handleCatch = async (event) =>{
     }
 }
 
+//send request to the server to delete pokemon from the user directory and refresh the page to show this pokemon data
 const handleRelease = async (event) =>{
     try{
         let input = document.querySelector('input').value;
@@ -245,6 +254,8 @@ const handleRelease = async (event) =>{
         document.querySelector('input').placeholder="THIS POKEMON NEVER CAUGHT";
     }
 }
+
+// send request to the local server and return the data of the pokemon that exist in the user directory
 const getUserData = async ()=>{
     try{
         let response = await axios.get(`${baseLocalServer}pokemon/`, {
@@ -254,24 +265,39 @@ const getUserData = async ()=>{
         return response.data;
     }
     catch(error) {
-        throw error;
+        return ["THERE IS NO POKEMON"];
     }
     
 }
 
+// get list of pokemon and show them in the toggle down of the button in top
+// add listener to each pokemon name that if the user click on the name the data of the pokemon will be shown on the page.
 const showPokemonList = (List) =>{
     const listElement = document.getElementById("pokemonList");
-    for (let i = 0 ; i < List.length; i++){
-        let listItem = createElement("li",List[i].name,["dropdown-item"]);
-        listItem.addEventListener("click", ()=>{
-            console.log(1)
-            showData(List[i]);
-            handleStorage(event);
-        });
+    if(List.length ===0){
+        let listItem =" ";
+        listItem = createElement("li","THERE IS NO POKEMON",["dropdown-item"]);
         listElement.appendChild(listItem);
+    }else{
+        for (let i = 0 ; i < List.length; i++){
+            let listItem =" ";
+            if(typeof List[i] !=="string"){
+                listItem = createElement("li",List[i].name,["dropdown-item"]);
+                listItem.addEventListener("click", ()=>{
+                    console.log(1)
+                    showData(List[i]);
+                    handleStorage(event);
+                });
+            }else{
+                console.log(List[i]);
+                listItem = createElement("li",List[i],["dropdown-item"]);
+            }
+            listElement.appendChild(listItem);
+        }
     }
 }
 
+//clean the toggle down list that shown on click on the cart button in top of the page
 const deleteListElement = () =>{
     listElement = document.getElementById("pokemonList");
     while(listElement.children[0]){
@@ -280,6 +306,7 @@ const deleteListElement = () =>{
     }
 }
 
+//if user click on cart button, list of pokemons the user catch will be shown on the page, another click on this button will close this list
 const handleStorage = async (event) =>{
     if(userStorageDom.getAttribute("class").indexOf("show") > 0){
         deleteListElement();
@@ -289,6 +316,7 @@ const handleStorage = async (event) =>{
         pokemonList.setAttribute("class" , pokemonList.getAttribute("class").replace("show", "")) 
     }else{
         const pokemonStorageList = await getUserData();
+        console.log(pokemonStorageList);
         showPokemonList(pokemonStorageList);
         userStorageDom.setAttribute("class", userStorageDom.getAttribute("class") + " show");
         userStorageDom.setAttribute("aria-expanded" , true);
@@ -298,5 +326,4 @@ const handleStorage = async (event) =>{
 }
 
 
-document.getElementById("storageButton").addEventListener("click",handleStorage);
 document.getElementById('login').addEventListener("click",handleUserLogIn);
