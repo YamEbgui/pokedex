@@ -16,18 +16,37 @@
             <input type="text" id="userInput" class="fadeIn second" name="login" placeholder="INSERT USERNAME ">
             <input id ="login" type="submit" class="fadeIn fourth" value="Log In">
           </form>
+          <button type="button" class="btn btn-secondary cart" hidden= "true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
+<path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"></path>
+</svg>
+          </button>
         </div>
       </div>
     <div id="body-div">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <span class="fs-4">POKADEX</span>
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-1 border-bottom">
+            <span class="fs-2">POKADEX</span>
         </header>
-        <div   id="div-form" class="mx-3 d-flex flex-col align-items-center">
-            <form class="col-12 col-lg-auto ">
+        <div   id="div-form" class="mx-3 d-flex flex-col align-items-center" hidden="true">
+            <form id="searchForm" class="col-12 col-lg-auto " hidden ="true">
                 <input type="search" class="form-control form-control-dark" placeholder="ENTER POKEMON NAME/ID" aria-label="Search">
-                <button type="button" class="btn btn-danger">Search</button>
+                <button id="searchButton" type="button" class="btn btn-danger">Search</button>
+                <button id="catchButton" type="button" class="btn btn-primary ">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
+        <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708z"></path>
+      </svg>
+                      CATCH
+                </button>
+                <button id="releaseButton" type="button" class="btn btn-success ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x" viewBox="0 0 16 16">
+          <path d="M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"></path>
+          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+        </svg>
+                    REALESE
+                </button>
             </form>
-        <div>
+
+        </div>
         <div id="data" class="">
             <div>
                 <p id="pockFamilyTitle" hidden>POKEMONS FROM THIS TYPE:</p>
@@ -43,8 +62,9 @@
                 <ul id="pockemonTypes" class="list-group">
                 </ul>
             </div>
+            <div>
             <img id="pockemonImage" src="images/pokemonDataPlaceholder.jpg" class="img-thumbnail img-fluid" alt="Pockemon Picture">
-        </div>
+            </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>

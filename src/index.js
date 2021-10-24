@@ -1,3 +1,4 @@
+
 //DOM objects
 const pockemonName = document.getElementById("pockemonName");
 const pockemonId = document.getElementById("pockemonId");
@@ -57,6 +58,7 @@ const showImage = (data) =>{
 
 //change DOM objecct to show the data (pockemon data)
 const showData = (data) =>{
+    document.querySelector('input').placeholder="ENTER POKEMON NAME/ID"
     pockemonName.textContent ="NAME: "+ data.name.toUpperCase();
     pockemonHeight.textContent ="HEIGHT: " + data.height;
     pockemonWeight.textContent ="WEIGHT " +  data.weight;
@@ -89,16 +91,24 @@ const deleteInput = (inputElement) =>{
 const getForApi = async (input) =>{
     try{
         try{
-            let response = await axios.get(`${baseLocalServer}pokemon/get/${input}`);
+            let response = await axios.get(`${baseLocalServer}pokemon/get/${input}`, {
+                headers: {
+                  'username': `${userName}`
+                }});
+                console.log(response);
             return response.data;
         }catch{
-            let response = await axios.get(`${baseLocalServer}pokemon/query?name=${input}`);
+            let response = await axios.get(`${baseLocalServer}pokemon/query?name=${input}`, {
+                headers: {
+                  'username': `${userName}`
+                }});
             return response.data;
         }
     }
     catch(error) {
         deleteInput(document.querySelector('input'));
-        console.log(error);
+        document.querySelector('input').placeholder="POKEMON NOT FOUND";
+        
     }
     
 }
@@ -113,12 +123,17 @@ const handlerForHover = () =>{
 
 // delete data from the DOM and update it from the data the user insert
 const handlerForSerch = async (event) =>{
-    let input = document.querySelector('input').value;
-    deleteInput(document.querySelector('input'));
-    cleanTypesData()
-    cleanFamilyData()
-    let data = await getForApi(input);
-    showData(data);
+    try{
+        let input = document.querySelector('input').value;
+        deleteInput(document.querySelector('input'));
+        cleanTypesData()
+        cleanFamilyData()
+        let data = await getForApi(input);
+        showData(data);
+    }catch{
+        deleteInput(document.querySelector('input'));
+        document.querySelector('input').placeholder="POKEMON NOT FOUND";
+    }
 }
 
 //handler for click on family member that clean the DOM and show the target data.
@@ -147,12 +162,12 @@ const getFamilyFromApi = async (event) =>{
 }
 
 const refreshUserContent = () =>{
-    while (userDom.firstElementChild){
-        console.log(typeof userDom.children[0])
-        userDom.removeChild(userDom.children[0]);
-    }
+    console.log(typeof userDom.children[0])
+    userDom.removeChild(userDom.children[0]);
     const userElement = createElement("h5",`USERNAME : ${userName}`) 
     userDom.append(userElement);
+    document.getElementById("searchForm").hidden=false;
+    userDom.children[0].hidden=false;
 }
 
 const handleUserLogIn = (event) =>{
@@ -161,10 +176,74 @@ const handleUserLogIn = (event) =>{
         userName = input;
         console.log(userName);
         refreshUserContent();
-        document.querySelector('button').addEventListener("click",handlerForSerch)
+        document.getElementById("searchButton").addEventListener("click",handlerForSerch);
+        document.getElementById("catchButton").addEventListener("click",handleCatch);
+        document.getElementById("releaseButton").addEventListener("click",handleRelease);
     }
-
 }
+const catchOnServer = async (input) =>{
+    try{
+        let response = await axios.put(`${baseLocalServer}pokemon/catch/${input}`,{}, {
+            headers: {
+              'username': `${userName}`
+            }});
+        let pokemonData = await getForApi(input);
+        console.log(pokemonData)
+        return pokemonData;
+    }
+    catch(error) {
+        throw error;
+        
+    }
+    
+}
+const releaseOnServer = async (input) =>{
+    try{
+        let response = await axios.delete(`${baseLocalServer}pokemon/release/${input}`, {
+            headers: {
+              'username': `${userName}`
+            }},{});
+        let pokemonData = await getForApi(input);
+        console.log(pokemonData)
+        return pokemonData;
+    }
+    catch(error) {
+        throw error;
+    }
+    
+}
+
+const handleCatch = async (event) =>{
+    try{
+        let input = document.querySelector('input').value;
+        deleteInput(document.querySelector('input'));
+        cleanTypesData()
+        cleanFamilyData()
+        let data = await catchOnServer(input);
+        console.log(data)
+        showData(data);
+    }catch{
+        deleteInput(document.querySelector('input'));
+        document.querySelector('input').placeholder="ALREADY CATCH POKEMON";
+    }
+}
+
+const handleRelease = async (event) =>{
+    try{
+        let input = document.querySelector('input').value;
+        deleteInput(document.querySelector('input'));
+        cleanTypesData()
+        cleanFamilyData()
+        let data = await releaseOnServer(input);
+        console.log(data)
+        showData(data);
+    }catch{
+        deleteInput(document.querySelector('input'));
+        document.querySelector('input').placeholder="THIS POKEMON NEVER CAUGHT";
+    }
+}
+
+
 
 
 document.getElementById('login').addEventListener("click",handleUserLogIn);

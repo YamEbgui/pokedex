@@ -5,6 +5,7 @@ body{
 div{
     margin:3vh;
 }
+
 .btn{
     background-color: red;
     border-color: black;
@@ -12,6 +13,31 @@ div{
     margin-top: 1vh;
     
     
+}
+.cart{
+    padding:0vh;
+    margin:0vh;
+    margin-left:2vh;
+    height:5vh;
+    width:5vh;
+}
+.userButtons{
+    width:30vh;
+    height:7.5vh;
+    display: flex;
+    flex-direction:row;
+}
+.wrapper{
+    padding:0vh;
+    margin:0vh;
+}
+#userContent{
+    display:flex;
+    flex-direction:row-reverse;
+    justify-content: left;
+    margin:1vh;
+    padding:1vh;
+    height: 5vh;
 }
 #div-form{
     display: flex;
@@ -27,8 +53,10 @@ div{
     height:30vh;
 }
 
+
 #data{
     display: flex;
     flex-direction: row-reverse;
+    justify-content: center;
 }
 
