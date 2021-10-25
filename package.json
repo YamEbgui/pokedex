@@ -1,0 +1,20 @@
+{
+  "name": "pokedex",
+  "version": "1.0.0",
+  "description": "https://yamebgui.github.io/pokedex/",
+  "main": "index.js",
+  "scripts": {
+    "start": "node pokemon-api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YamEbgui/pokedex.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YamEbgui/pokedex/issues"
+  },
+  "homepage": "https://github.com/YamEbgui/pokedex#readme"
+}
