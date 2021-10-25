@@ -8,8 +8,7 @@ In this project i used https://www.npmjs.com/package/pokedex-promise-v2 & https:
 
 - Clone the repository
 - Run `npm install` command, to install all dependencies
-- Run `npm run build` command, to build the project
-- Run `npm run start` command, to run the local server
+- Run `npm start` command, to run the local server
 
 # Features
 
